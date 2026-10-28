@@ -1,7 +1,18 @@
 package io.github.sushaant.capstone.data.model
 
-data class LoginRequest(val email: String, val pass: String)
-data class AuthResponse(val token: String, val message: String)
+data class LoginRequest(
+    val email: String,
+    val pass: String
+)
+data class RegisterRequest(
+    val fullName: String,
+    val email: String,
+    val pass: String
+)
+data class AuthResponse(
+    val token: String,
+    val message: String
+)
 
 data class ResumeMatchRequest(
     val resumeText: String,
