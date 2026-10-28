@@ -1,10 +1,7 @@
 package io.github.sushaant.capstone.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,6 +9,7 @@ import io.github.sushaant.capstone.ui.auth.AuthContainerScreen
 import io.github.sushaant.capstone.ui.biasaudit.BiasAuditScreen
 import io.github.sushaant.capstone.ui.dashboard.DashboardScreen
 import io.github.sushaant.capstone.ui.matcher.ResumeMatchScreen
+import io.github.sushaant.capstone.viewmodel.AuthViewModel
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -20,23 +18,25 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = Screen.Auth.route
     ) {
         composable(Screen.Auth.route) {
-            var isRegistering by remember { mutableStateOf(false) }
+            val authViewModel: AuthViewModel = viewModel()
 
             AuthContainerScreen(
                 onLoginClicked = { email, pass ->
-                    // TODO: Call AuthViewModel.login(email, pass) and navigate on success
-                    navController.navigate(Screen.Dashboard.route) {
-                        popUpTo(Screen.Auth.route) { inclusive = true }
+                    authViewModel.login(email, pass) {
+                        navController.navigate(Screen.Dashboard.route) {
+                            popUpTo(Screen.Auth.route) { inclusive = true }
+                        }
                     }
                 },
                 onRegisterClicked = { name, email, pass ->
-                    // TODO: Call AuthViewModel.register(name, email, pass) and navigate on success
-                    navController.navigate(Screen.Dashboard.route) {
-                        popUpTo(Screen.Auth.route) { inclusive = true }
+                    authViewModel.register(name, email, pass) {
+                        navController.navigate(Screen.Dashboard.route) {
+                            popUpTo(Screen.Auth.route) { inclusive = true }
+                        }
                     }
                 },
                 onToggleAuthMode = {
-                    isRegistering = !isRegistering
+                    authViewModel.onToggleAuthMode()
                 }
             )
         }
