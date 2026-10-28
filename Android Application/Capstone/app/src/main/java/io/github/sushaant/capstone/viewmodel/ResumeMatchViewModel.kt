@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.sushaant.capstone.data.repository.ResumeRepository
 import io.github.sushaant.capstone.ui.matcher.ResumeMatchUiState
+import io.github.sushaant.capstone.data.remote.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,7 @@ import okhttp3.MultipartBody
 
 class ResumeMatchViewModel(
     private val repository: ResumeRepository = ResumeRepository(
-        io.github.sushaant.capstone.data.remote.RetrofitClient.apiService
+        RetrofitClient.apiService
     )
 ) : ViewModel() {
 
