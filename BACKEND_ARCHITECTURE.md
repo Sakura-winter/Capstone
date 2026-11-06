@@ -103,14 +103,15 @@ $$SGI_i = 1 - \frac{\sum_{k \in S_{\text{required}}} w_k \cdot \mu(k, S_{\text{c
 
 ## 📱 Mobile Integration (How to Explain the Android Connection)
 
-1. **Local Network Binding**: The Spring Boot app listens on `0.0.0.0:8080`, allowing external devices on the same Wi-Fi network to connect.
+1. **Local Network Binding**: The Spring Boot app listens on `0.0.0.0:8080`, allowing external devices on the same local network to connect.
 2. **IP Access**:
-   - Machine IP: `172.21.230.204`
-   - Android Base URL: `http://172.21.230.204:8080/api/v1/`
+   - Machine IP: Check local IPv4 address using `ipconfig` (e.g. `192.168.x.x` or your dynamic LAN IP).
+   - Android Base URL: `http://<BACKEND_HOST_IP>:8080/api/v1/`
    - Android Emulator Base URL: `http://10.0.2.2:8080/api/v1/`
 3. **Live Interactive Swagger UI**:
-   - `http://172.21.230.204:8080/swagger-ui/index.html`
-   - Anyone on the same Wi-Fi can open this link in their mobile browser to view and test every API request with sample payloads.
+   - `http://localhost:8080/swagger-ui/index.html` (Local)
+   - `http://<BACKEND_HOST_IP>:8080/swagger-ui/index.html` (Mobile browser over same Wi-Fi)
+   - Anyone on the same network can open this link in their browser to view and test every API request with sample payloads.
 
 ---
 

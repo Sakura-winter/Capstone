@@ -5,25 +5,26 @@ This is the enterprise Java Spring Boot backend designed for the Smart India Hac
 
 ---
 
-## 🚀 Connecting Android / Mobile App Over Local IP
+## 🚀 Connecting Android / Mobile App Over Local Network
 
-Your local LAN IP on Wi-Fi is:
+### 1. Find Your Backend Host IP
+On the backend host machine, check your local IPv4 address using `ipconfig` (Windows) or `ifconfig` / `ip a` (Linux/macOS):
 ```
-172.21.230.204
+e.g. 192.168.x.x or 10.x.x.x (or your current LAN IP)
 ```
 
-### 1. Base URL for Android App
+### 2. Base URL for Android App
 - **When testing on a Physical Android Device (connected to same Wi-Fi)**:
   ```
-  http://172.21.230.204:8080/api/v1/
+  http://<YOUR_LOCAL_IP>:8080/api/v1/
   ```
-- **When testing on Android Studio Emulator (running on this PC)**:
+- **When testing on Android Studio Emulator (running on the same PC as backend)**:
   ```
   http://10.0.2.2:8080/api/v1/
   ```
 
-### 2. Android App Permissions (`AndroidManifest.xml`)
-Make sure your Android project includes the internet permission and allows HTTP traffic for local development:
+### 3. Android App Permissions (`AndroidManifest.xml`)
+Make sure your Android project includes the internet permission and allows cleartext HTTP for local dev:
 ```xml
 <manifest ...>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,10 +37,11 @@ Make sure your Android project includes the internet permission and allows HTTP 
 </manifest>
 ```
 
-### 3. Retrofit Configuration Example (Kotlin)
+### 4. Retrofit Configuration Example (Kotlin)
 ```kotlin
 object RetrofitClient {
-    private const val BASE_URL = "http://172.21.230.204:8080/api/v1/"
+    // Replace <YOUR_LOCAL_IP> with the host machine's Wi-Fi IPv4 address
+    private const val BASE_URL = "http://<YOUR_LOCAL_IP>:8080/api/v1/"
 
     val instance: SkillSyncApiService by lazy {
         Retrofit.Builder()
@@ -54,9 +56,9 @@ object RetrofitClient {
 ---
 
 ## 📖 Interactive Swagger / OpenAPI Documentation
-Open in any browser (laptop or phone):
-- **Local Browser**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-- **From Android Phone (via Wi-Fi)**: `http://172.21.230.204:8080/swagger-ui/index.html`
+Open in any browser:
+- **Local Machine**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- **From Mobile Device Browser (over same Wi-Fi)**: `http://<YOUR_LOCAL_IP>:8080/swagger-ui/index.html`
 
 ---
 
