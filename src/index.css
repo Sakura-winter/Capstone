@@ -1,28 +1,111 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --app-bg: #F7F5F0;
+  --app-text: #11141B;
+  --app-text-muted: #4A463F;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-warm-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 244, 237, 0.88) 100%);
+  --card-border: rgba(215, 208, 196, 0.85);
+  --card-border-warm: rgba(193, 95, 60, 0.25);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --nav-border: rgba(220, 214, 204, 0.9);
+  --input-bg: #FFFFFF;
+  --subtle-surface: rgba(243, 238, 229, 0.85);
+  --blob-1: rgba(193, 95, 60, 0.12);
+  --blob-2: rgba(185, 213, 229, 0.2);
+  --shadow-color: rgba(160, 140, 120, 0.14);
+}
+
+.dark {
+  --app-bg: #0F131A;
+  --app-text: #FFFFFF;
+  --app-text-muted: #A3ABB8;
+  --card-bg: rgba(22, 27, 36, 0.82);
+  --card-warm-bg: linear-gradient(145deg, rgba(28, 34, 46, 0.88) 0%, rgba(18, 22, 30, 0.85) 100%);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-border-warm: rgba(193, 95, 60, 0.35);
+  --nav-bg: rgba(15, 19, 26, 0.9);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --input-bg: #181E29;
+  --subtle-surface: rgba(28, 34, 48, 0.7);
+  --blob-1: rgba(193, 95, 60, 0.18);
+  --blob-2: rgba(59, 130, 246, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.45);
+}
+
 body {
-  background-color: #0B0F19;
-  color: #f3f4f6;
+  background-color: var(--app-bg);
+  color: var(--app-text);
   min-height: 100vh;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  background-image: 
-    radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
-  background-attachment: fixed;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.glass-panel {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Glassmorphic Components tied to Theme Variables */
+.glass-cream-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 16px 40px -12px var(--shadow-color);
+  transition: all 0.3s ease;
 }
 
-.glass-panel-hover {
-  transition: all 0.25s ease-in-out;
+.glass-cream-card-warm {
+  background: var(--card-warm-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--card-border-warm);
+  box-shadow: 0 20px 50px -15px var(--shadow-color), 0 0 25px rgba(193, 95, 60, 0.08);
+  transition: all 0.3s ease;
 }
-.glass-panel-hover:hover {
-  background: rgba(31, 41, 55, 0.85);
-  border-color: rgba(99, 102, 241, 0.3);
-  transform: translateY(-2px);
+
+.glass-cream-interactive {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-cream-interactive:hover {
+  transform: translateY(-4px);
+  border-color: rgba(193, 95, 60, 0.5);
+  box-shadow: 0 22px 45px -10px rgba(193, 95, 60, 0.22);
+}
+
+/* Navbar glass */
+.glass-navbar {
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: all 0.3s ease;
+}
+
+/* Ambient Blobs */
+@keyframes warmFloat1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(45px, -35px) scale(1.08);
+  }
+}
+
+@keyframes warmFloat2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-40px, 40px) scale(1.06);
+  }
+}
+
+.animate-warm-1 {
+  animation: warmFloat1 22s ease-in-out infinite;
+}
+
+.animate-warm-2 {
+  animation: warmFloat2 26s ease-in-out infinite;
 }

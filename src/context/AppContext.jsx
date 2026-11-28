@@ -13,6 +13,19 @@ export const AppProvider = ({ children }) => {
   const [publicFeed, setPublicFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
+  const [theme, setTheme] = useState('light'); // 'light' | 'dark'
+
+  const toggleTheme = () => {
+    setTheme(prev => {
+      const nextTheme = prev === 'light' ? 'dark' : 'light';
+      if (nextTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return nextTheme;
+    });
+  };
 
   const showToast = (message, type = 'info') => {
     setToast({ message, type });
@@ -113,6 +126,8 @@ export const AppProvider = ({ children }) => {
         loading,
         setLoading,
         toast,
+        theme,
+        toggleTheme,
         showToast,
       }}
     >

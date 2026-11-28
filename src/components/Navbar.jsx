@@ -1,113 +1,173 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
-import { Building2, UserCircle, Briefcase, FileSearch, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
+import { LayoutDashboard, LogIn, ArrowUpRight, Sun, Moon, Info, Settings, HelpCircle } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab }) {
-  const { backendStatus, currentCompany, activeActor, employees, setActiveActor, toast } = useApp();
+export default function Navbar({ activeTab, setActiveTab, currentUser, onSignOut }) {
+  const { toast, theme, toggleTheme } = useApp();
 
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 lg:px-8 py-3">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <header className="sticky top-0 z-40 glass-navbar px-4 lg:px-8 py-3.5 shadow-xs transition-colors duration-300">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
-        {/* Logo and Live Status */}
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[2px] shadow-lg shadow-indigo-500/20">
-            <div className="w-full h-full bg-[#0B0F19] rounded-[10px] flex items-center justify-center font-black text-cyan-400 text-lg">
-              S
-            </div>
+        {/* Hiredge Logo and Identity with Greek β Symbol Badge */}
+        <div 
+          onClick={() => setActiveTab('landing')}
+          className="flex items-center space-x-3 cursor-pointer group"
+          title="Hiredge - Intelligent Career & Hiring"
+        >
+          <div className="w-10 h-10 rounded-full overflow-hidden shadow-xs group-hover:scale-105 transition-transform bg-white border border-[#E0D8CC] dark:border-white/10 shrink-0">
+            <img 
+              src="/hiredge-logo.jpg" 
+              alt="Hiredge Logo" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-indigo-200 bg-clip-text text-transparent">
-                SkillSync AI
+              <span className="font-extrabold text-xl tracking-tight text-[#0D0F14] dark:text-white group-hover:text-[#C15F3C] transition-colors">
+                Hiredge
               </span>
-              <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                SIH26134
-              </span>
+
+              {/* Greek β symbol badge */}
+              <div 
+                className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#C15F3C]/10 dark:bg-[#C15F3C]/20 border border-[#C15F3C]/25 text-[#C15F3C] shadow-xs cursor-default" 
+                title="Beta Release"
+              >
+                <span className="text-sm font-serif font-bold leading-none -translate-y-[1px]">
+                  β
+                </span>
+              </div>
             </div>
             
-            {/* Live Backend Pulse */}
-            <div className="flex items-center space-x-2 text-xs">
-              <span className="relative flex h-2 w-2">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                  backendStatus === 'ONLINE' ? 'bg-emerald-400' : 'bg-rose-400'
-                }`} />
-                <span className={`relative inline-flex rounded-full h-2 w-2 ${
-                  backendStatus === 'ONLINE' ? 'bg-emerald-500' : 'bg-rose-500'
-                }`} />
-              </span>
-              <span className="text-gray-400 font-mono text-[11px]">
-                Backend: <strong className={backendStatus === 'ONLINE' ? 'text-emerald-400' : 'text-rose-400'}>
-                  {backendStatus} (Port 8080)
-                </strong>
-              </span>
-            </div>
+            <p className="text-[11px] text-[#78716A] dark:text-gray-400">
+              Where Talent Meets Insight
+            </p>
           </div>
         </div>
 
         {/* Center Nav Navigation */}
-        <nav className="flex items-center space-x-1 bg-gray-900/60 p-1.5 rounded-2xl border border-white/5">
+        <nav className="flex items-center space-x-1 bg-[#EFECE6]/80 dark:bg-gray-800/60 p-1.5 rounded-2xl border border-[#E0DCD4] dark:border-white/10 backdrop-blur-md">
           <button
-            onClick={() => setActiveTab('company')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-              activeTab === 'company'
-                ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-md shadow-indigo-600/30'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+            onClick={() => setActiveTab('landing')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              activeTab === 'landing'
+                ? 'bg-[#C15F3C] text-white shadow-sm shadow-[#C15F3C]/30'
+                : 'text-[#615B52] dark:text-gray-300 hover:text-[#1F242E] dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
             }`}
           >
-            <Building2 className="w-4 h-4" />
-            <span>Company Hub</span>
+            <LayoutDashboard className="w-4 h-4" />
+            <span>Overview</span>
           </button>
 
           <button
-            onClick={() => setActiveTab('candidates')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-              activeTab === 'candidates'
-                ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-md shadow-indigo-600/30'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+            onClick={() => setActiveTab('about')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              activeTab === 'about'
+                ? 'bg-[#C15F3C] text-white shadow-sm shadow-[#C15F3C]/30'
+                : 'text-[#615B52] dark:text-gray-300 hover:text-[#1F242E] dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
             }`}
           >
-            <FileSearch className="w-4 h-4" />
-            <span>Resume & Matcher</span>
+            <Info className="w-4 h-4" />
+            <span>About</span>
           </button>
 
           <button
-            onClick={() => setActiveTab('bias')}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-              activeTab === 'bias'
-                ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-md shadow-indigo-600/30'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+            onClick={() => setActiveTab('faq')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              activeTab === 'faq'
+                ? 'bg-[#C15F3C] text-white shadow-sm shadow-[#C15F3C]/30'
+                : 'text-[#615B52] dark:text-gray-300 hover:text-[#1F242E] dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
             }`}
           >
-            <ShieldCheck className="w-4 h-4" />
-            <span>Bias Audit (DIR)</span>
+            <HelpCircle className="w-4 h-4" />
+            <span>FAQ Drawer</span>
           </button>
+
+          {currentUser && (
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'dashboard'
+                  ? 'bg-[#C15F3C] text-white shadow-sm shadow-[#C15F3C]/30'
+                  : 'text-[#615B52] dark:text-gray-300 hover:text-[#1F242E] dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
+              }`}
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Dashboard</span>
+            </button>
+          )}
         </nav>
 
-        {/* Right Actor / Permission Switcher */}
-        <div className="flex items-center space-x-3">
-          {currentCompany && (
-            <div className="flex items-center space-x-2 bg-gray-900/80 px-3 py-1.5 rounded-xl border border-white/10 text-xs">
-              <UserCircle className="w-4 h-4 text-cyan-400" />
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-gray-400">Acting As (X-Actor-Employee-Id):</span>
-                <select
-                  value={activeActor?.id || ''}
-                  onChange={(e) => {
-                    const selected = employees.find(emp => emp.id === e.target.value);
-                    if (selected) setActiveActor(selected);
-                  }}
-                  className="bg-transparent text-xs text-white font-medium focus:outline-none cursor-pointer"
-                >
-                  {employees.map(emp => (
-                    <option key={emp.id} value={emp.id} className="bg-gray-900 text-white">
-                      {emp.fullName} ({emp.roleOrTitle})
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {/* Right Section: Custom Settings Button + Theme Switcher + Auth Button */}
+        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+          
+          {/* Custom Settings Button just before Theme changing button */}
+          <motion.button
+            whileHover={{ scale: 1.08, rotate: 15 }}
+            whileTap={{ scale: 0.92, rotate: -15 }}
+            onClick={() => toast({ type: 'info', message: 'Hiredge Preferences: System Theme, Notification Keys & Security Verified.' })}
+            className="p-2.5 rounded-2xl bg-white dark:bg-gray-800 border border-[#DDD5C8] dark:border-white/15 shadow-xs hover:border-[#C15F3C]/50 hover:shadow-sm transition-all cursor-pointer flex items-center justify-center text-[#615B52] dark:text-gray-300 hover:text-[#C15F3C] dark:hover:text-[#F3C3A6]"
+            title="Hiredge Preferences & Settings"
+          >
+            <Settings className="w-4 h-4" />
+          </motion.button>
+
+          {/* Custom Animated Theme Switcher Button */}
+          <motion.button
+            whileHover={{ scale: 1.08, rotate: 6 }}
+            whileTap={{ scale: 0.92, rotate: -10 }}
+            onClick={toggleTheme}
+            className="p-2.5 rounded-2xl bg-white dark:bg-gray-800 border border-[#DDD5C8] dark:border-white/15 shadow-xs hover:border-[#C15F3C]/50 hover:shadow-sm transition-all cursor-pointer flex items-center justify-center"
+            title={theme === 'dark' ? 'Switch to Creamy Light Mode' : 'Switch to Soft Dark Mode'}
+          >
+            <motion.div
+              initial={false}
+              animate={{ rotate: theme === 'dark' ? 180 : 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="flex items-center justify-center"
+            >
+              {theme === 'dark' ? (
+                <Moon className="w-4 h-4 text-[#F3C3A6]" />
+              ) : (
+                <Sun className="w-4 h-4 text-[#C15F3C]" />
+              )}
+            </motion.div>
+          </motion.button>
+
+          {/* User Status / Login Button */}
+          {currentUser ? (
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className="px-3.5 py-2 rounded-2xl text-xs font-bold bg-[#C15F3C] text-white shadow-xs hover:bg-[#A84B29] transition-all cursor-pointer flex items-center gap-2"
+              >
+                <span>Dashboard</span>
+              </button>
             </div>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => setActiveTab('auth')}
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border shadow-xs ${
+                activeTab === 'auth'
+                  ? 'bg-[#C15F3C] text-white border-[#C15F3C] shadow-md shadow-[#C15F3C]/30'
+                  : 'bg-white dark:bg-gray-800 text-[#0D0F14] dark:text-white border-[#DDD5C8] dark:border-white/15 hover:border-[#C15F3C]/50 hover:shadow-sm'
+              }`}
+            >
+              <div className={`w-6 h-6 rounded-xl flex items-center justify-center transition-colors ${
+                activeTab === 'auth' 
+                  ? 'bg-white/20 text-white' 
+                  : 'bg-[#C15F3C]/10 text-[#C15F3C]'
+              }`}>
+                <LogIn className="w-3.5 h-3.5" />
+              </div>
+              <span>Sign In / Login</span>
+              <ArrowUpRight className={`w-3.5 h-3.5 transition-colors ${
+                activeTab === 'auth' ? 'text-white' : 'text-[#9E968B]'
+              }`} />
+            </motion.button>
           )}
         </div>
       </div>
@@ -125,7 +185,6 @@ export default function Navbar({ activeTab, setActiveTab }) {
                 : 'bg-emerald-950/80 border-emerald-500/40 text-emerald-200'
             }`}
           >
-            {toast.type === 'error' ? <AlertCircle className="w-4 h-4 text-rose-400" /> : <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
             <span>{toast.message}</span>
           </motion.div>
         )}
